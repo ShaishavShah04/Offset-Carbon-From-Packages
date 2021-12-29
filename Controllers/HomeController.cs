@@ -28,5 +28,18 @@ namespace CarbonOffset.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Result(string trackingNumber, string carrier)
+        {
+            Console.WriteLine(carrier);
+            /*
+            using (var client = new HttpClient())
+            { 
+                var uri = new Uri("https://api.goshippo.com/tracks/shippo/SHIPPO_TRANSIT")
+            }
+            */
+            return RedirectToAction("Index", "Result");
+        }
     }
 }
