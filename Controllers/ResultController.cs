@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarbonOffset.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarbonOffset.Controllers
 {
     public class ResultController : Controller
     {
+        
+       
         public IActionResult Index()
         {
-            return View();
+            var testResult = new Result();
+            return View(testResult);
         }
     }
 }
