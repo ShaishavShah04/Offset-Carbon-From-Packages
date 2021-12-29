@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CarbonOffset.Models;
 
 namespace CarbonOffset.Data
 {
@@ -9,5 +10,6 @@ namespace CarbonOffset.Data
             : base(options)
         {
         }
+        public DbSet<CarbonOffset.Models.Result> Result { get; set; }
     }
 }

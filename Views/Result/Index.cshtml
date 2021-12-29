@@ -1,0 +1,48 @@
+﻿@model CarbonOffset.Models.Result
+
+@{
+    ViewData["Title"] = "Results";
+}
+
+<h1>Index</h1>
+
+<div>
+    <h4>Result</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrackingNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrackingNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StartingCity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartingCity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DestinationCity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DestinationCity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Distance)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Distance)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
