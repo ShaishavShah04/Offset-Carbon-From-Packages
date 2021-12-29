@@ -7,4 +7,31 @@
     <p>Carbon Offset offers an easy way to calculate, reduce, and remove your shipment's CO2 emissions!</p>
     <p>Simply enter your shipment's tracking number and we will track your package's carbon footprint.</p> 
     <p>Then you can choose from your local environmental organizations and donate to them to offset your footprint.</p>
+
+    <form asp-action="Result" method="POST">
+        <div class="container align-items-center">
+            <div class="row" style="margin-bottom: 15px">
+                <label><b>Enter your tracking number</b></label>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <input name="trackingNumber" class="form-control" type="text" placeholder="Tracking Number" /> 
+                    <span class="text-danger"></span>
+                </div>
+                <div class="col-md-auto" style="margin-left: -15px">
+                    @Html.DropDownList("carrier", new List<SelectListItem>
+                    {
+                       new SelectListItem{ Text="USPS", Value = "usps" },
+                       new SelectListItem{ Text="Canada Post", Value = "canadapost" },
+                       new SelectListItem{ Text="Shippo", Value = "SHIPPO" },
+                    },
+                    new {@class = "selectCarrier"})
+                </div>
+
+                <div class="col-md-auto" style="margin-left: -15px">
+                    <input type="submit" value="Find" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
