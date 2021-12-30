@@ -33,8 +33,8 @@ namespace CarbonOffset.Controllers
         }
 
         //static HttpClient client = new HttpClient();
-
         // private IHttpClientFactory _httpClientFactory;
+
         [HttpPost]
         public async Task<IActionResult> Result(Result resultObject)
         {
@@ -44,8 +44,6 @@ namespace CarbonOffset.Controllers
             Console.WriteLine(resultObject.Carrier);
             Console.WriteLine(resultObject.TrackingNumber);
 
-            // testing purposes URL
-            // https://api.goshippo.com/tracks/shippo/SHIPPO_TRANSIT
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(path);
