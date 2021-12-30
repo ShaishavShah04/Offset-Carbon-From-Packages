@@ -8,24 +8,20 @@ namespace CarbonOffset.Controllers
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly string _GeoCodingApiUrl = "http://api.positionstack.com/v1/forward?access_key=a96751e085c89f0bd2e65a1a130f4aca&query=";
         public ResultController(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
         async public Task<IActionResult> Index(string TrackingNum, string OrgCity = "Edmonton,AB", string DestCity = "Victoria,BC")
         {
-            var httpClient = _httpClientFactory.CreateClient("Distance");
+            // Fetching LongLat Info
 
-            using (HttpResponseMessage response = await httpClient.GetAsync(_GeoCodingApiUrl + OrgCity))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    using (HttpContent content = response.Content)
-                    {
-                        CityInfo data = await content.ReadFromJsonAsync<CityInfo>();
-                        Console.WriteLine(data);
-                    }
-                }
-            }
+            var httpClient = _httpClientFactory.CreateClient("LongLat");
+            CityInfo OrgCityInfo = await ApiHelper.GetLongLat(httpClient, OrgCity);
+            CityInfo DestCityInfo = await ApiHelper.GetLongLat(httpClient, DestCity);
+
+            // Computing Distance Between 2 locations
+            double DistanceKM = ApiHelper.GetDistance(OrgCityInfo.GetData(), DestCityInfo.GetData());
+
+            // Creating the Result obj
             var testResult = new Result();
             return View(testResult);
         }
@@ -41,10 +37,8 @@ namespace CarbonOffset.Controllers
     public class CityInfo
     {
         public List<LatLng>? Data { get; set; }
+
+        public LatLng GetData() => Data[0];
     }
 
-    //async private Task<CityInfo> GetLongLat(string cityName)
-    //{
-
-    //} 
 }
