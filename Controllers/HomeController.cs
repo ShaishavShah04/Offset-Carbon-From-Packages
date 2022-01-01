@@ -72,8 +72,7 @@ namespace CarbonOffset.Controllers
             {
                 Console.WriteLine("{0} ({1})", (int)httpResponseMessage.StatusCode, httpResponseMessage.ReasonPhrase);
             }
-            // not sure if this works
-            return RedirectToAction("Index", "Result", new { result = trackingObject });
+            return RedirectToAction("Index", "Result", trackingObject);
         }
 
         public class locationInfo
