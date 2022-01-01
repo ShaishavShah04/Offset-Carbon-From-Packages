@@ -10,20 +10,23 @@ namespace CarbonOffset.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         public ResultController(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
-        async public Task<IActionResult> Index(string TrackingNum, string OrgCity = "Edmonton,AB", string DestCity = "Victoria,BC")
+        async public Task<IActionResult> Index(string TrackingNum, Result ResultObj)
         {
+            // Just for testing purposes:
+            ResultObj.StartCountry = "Canada";
+            ResultObj.StartingCity = "Edmonton";
+            ResultObj.DestinationCountry = "Canada";
+            ResultObj.DestinationCity = "Victoria";
             // Fetching LongLat Info
-
             var httpClient = _httpClientFactory.CreateClient("LongLat");
-            CityInfo OrgCityInfo = await ApiHelper.GetLongLat(httpClient, OrgCity);
-            CityInfo DestCityInfo = await ApiHelper.GetLongLat(httpClient, DestCity);
+            CityInfo OrgCityInfo = await ApiHelper.GetLongLat(httpClient,$"{ResultObj.StartingCity}, {ResultObj.StartCountry}");
+            CityInfo DestCityInfo = await ApiHelper.GetLongLat(httpClient, $"{ResultObj.DestinationCity}, {ResultObj.DestinationCountry}");
 
             // Computing Distance Between 2 locations
             double DistanceKM = ApiHelper.GetDistance(OrgCityInfo.GetData(), DestCityInfo.GetData());
 
             // Creating the Result obj
-            var testResult = new Result();
-            return View(testResult);
+            return View(ResultObj);
         }
     }
 
