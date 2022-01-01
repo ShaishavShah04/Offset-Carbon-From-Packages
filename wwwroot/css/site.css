@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.selectCarrier {
+    height: 100%;
+    border-color: lightgray;
+    border-radius: 3px;
+    color: gray;
+    width: 150px;
+    padding: 0 8px;
+}
