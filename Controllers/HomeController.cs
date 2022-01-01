@@ -39,8 +39,6 @@ namespace CarbonOffset.Controllers
             Console.WriteLine(resultObject.Carrier);
             Console.WriteLine(resultObject.TrackingNumber);
 
-            // testing purposes URL
-            // https://api.goshippo.com/tracks/shippo/SHIPPO_TRANSIT
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, path)
             {
