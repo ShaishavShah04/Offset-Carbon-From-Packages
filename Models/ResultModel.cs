@@ -10,7 +10,7 @@
         public string DestinationCity { get; set; }
         public string StartCountry { get; set; }
         public string DestinationCountry { get; set; }
-        public int Distance { get; set; }
-        public int Cost { get; set; }
+        public double Distance { get; set; }
+        public double Cost { get; set; }
     }
 }

@@ -12,11 +12,7 @@ namespace CarbonOffset.Controllers
 
         async public Task<IActionResult> Index(string TrackingNum, Result ResultObj)
         {
-            // Just for testing purposes:
-            ResultObj.StartCountry = "Canada";
-            ResultObj.StartingCity = "Edmonton";
-            ResultObj.DestinationCountry = "Canada";
-            ResultObj.DestinationCity = "Victoria";
+   
             // Fetching LongLat Info
             var httpClient = _httpClientFactory.CreateClient("LongLat");
             CityInfo OrgCityInfo = await ApiHelper.GetLongLat(httpClient,$"{ResultObj.StartingCity}, {ResultObj.StartCountry}");
@@ -25,7 +21,19 @@ namespace CarbonOffset.Controllers
             // Computing Distance Between 2 locations
             double DistanceKM = ApiHelper.GetDistance(OrgCityInfo.GetData(), DestCityInfo.GetData());
 
+            // Computing Cost
+            // ( 115g carbon / km ) -- https://www.carbonindependent.org/22.html 
+            // ( $50/Ton of carbon ) -- https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/industry/pricing-carbon-pollution.html
+            // Assume 1,000,000g = 1 Tons
+            // $0.00575/km
+
+            double Cost = 0.00575 * DistanceKM;
+            // Testing purposes:
+            
             // Creating the Result obj
+            ResultObj.Distance = DistanceKM;
+            ResultObj.Cost = Cost;
+
             return View(ResultObj);
         }
     }

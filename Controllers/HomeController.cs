@@ -36,8 +36,6 @@ namespace CarbonOffset.Controllers
             string carrier = resultObject.Carrier;
             string trackingNumber = resultObject.TrackingNumber;
             string path = $"https://api.goshippo.com/tracks/{carrier}/{trackingNumber}";
-            Console.WriteLine(resultObject.Carrier);
-            Console.WriteLine(resultObject.TrackingNumber);
 
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, path)
@@ -70,6 +68,13 @@ namespace CarbonOffset.Controllers
             }
             else
             {
+                trackingObject.Carrier = "UPS";
+                trackingObject.TrackingNumber = "gOCVJC2oNInUnDGarQbJ+sr3qZQeTtLbQuM=";
+                trackingObject.StartingCity = "Edmonton";
+                trackingObject.StartCountry = "Canada";
+                trackingObject.DestinationCity = "Victoria";
+                trackingObject.DestinationCountry = "Canada";
+
                 Console.WriteLine("{0} ({1})", (int)httpResponseMessage.StatusCode, httpResponseMessage.ReasonPhrase);
             }
             return RedirectToAction("Index", "Result", trackingObject);
