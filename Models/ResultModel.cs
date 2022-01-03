@@ -12,5 +12,6 @@
         public string DestinationCountry { get; set; }
         public double Distance { get; set; }
         public double Cost { get; set; }
+        public string MapUrl { get; set; }
     }
 }

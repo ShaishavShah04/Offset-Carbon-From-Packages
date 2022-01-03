@@ -68,12 +68,13 @@ namespace CarbonOffset.Controllers
             }
             else
             {
+                // Just for tracking purposes.
                 trackingObject.Carrier = "UPS";
                 trackingObject.TrackingNumber = "gOCVJC2oNInUnDGarQbJ+sr3qZQeTtLbQuM=";
                 trackingObject.StartingCity = "Edmonton";
                 trackingObject.StartCountry = "Canada";
-                trackingObject.DestinationCity = "Victoria";
-                trackingObject.DestinationCountry = "Canada";
+                trackingObject.DestinationCity = "Cape Town";
+                trackingObject.DestinationCountry = "South Africa";
 
                 Console.WriteLine("{0} ({1})", (int)httpResponseMessage.StatusCode, httpResponseMessage.ReasonPhrase);
             }

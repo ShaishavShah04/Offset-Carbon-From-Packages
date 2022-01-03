@@ -25,3 +25,35 @@ body {
     width: 150px;
     padding: 0 8px;
 }
+
+#title_tnum {
+    font-weight: bold;
+    font-size: large;
+    text-transform: uppercase;
+}
+
+#title_tnum .t_num {
+    font-size: xx-large;
+}
+
+.gradientGtoB {
+    background: -webkit-linear-gradient(0deg, #00ff99, #0099ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradientOtoR {
+    background: -webkit-linear-gradient(0deg, #ff6a00, #ff0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.center {
+    text-align: center;
+}
+
+#arrow {
+    background-color: black;
+    width: 100%;
+    height: 3px;
+}

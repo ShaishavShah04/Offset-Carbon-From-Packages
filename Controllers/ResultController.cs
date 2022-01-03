@@ -12,7 +12,7 @@ namespace CarbonOffset.Controllers
 
         async public Task<IActionResult> Index(string TrackingNum, Result ResultObj)
         {
-   
+
             // Fetching LongLat Info
             var httpClient = _httpClientFactory.CreateClient("LongLat");
             CityInfo OrgCityInfo = await ApiHelper.GetLongLat(httpClient,$"{ResultObj.StartingCity}, {ResultObj.StartCountry}");
@@ -20,19 +20,24 @@ namespace CarbonOffset.Controllers
 
             // Computing Distance Between 2 locations
             double DistanceKM = ApiHelper.GetDistance(OrgCityInfo.GetData(), DestCityInfo.GetData());
-
+            DistanceKM = Math.Round(DistanceKM);
             // Computing Cost
             // ( 115g carbon / km ) -- https://www.carbonindependent.org/22.html 
             // ( $50/Ton of carbon ) -- https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/industry/pricing-carbon-pollution.html
             // Assume 1,000,000g = 1 Tons
             // $0.00575/km
 
-            double Cost = 0.00575 * DistanceKM;
-            // Testing purposes:
-            
+            double Cost = Math.Round(0.00575 * DistanceKM, 2);
+            // Map Url:
+            // String to enter
+            string queryString = $"{ResultObj.DestinationCity}, {ResultObj.DestinationCountry}";
+            queryString = queryString.Replace(" ", "%20");
+            string mapSrc = $"https://maps.google.com/maps?q={queryString}&t=&z=9&ie=UTF8&iwloc=&output=embed";
+
             // Creating the Result obj
             ResultObj.Distance = DistanceKM;
             ResultObj.Cost = Cost;
+            ResultObj.MapUrl = mapSrc;
 
             return View(ResultObj);
         }
