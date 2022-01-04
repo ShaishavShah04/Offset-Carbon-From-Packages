@@ -17,6 +17,11 @@ namespace CarbonOffset.Controllers
             var httpClient = _httpClientFactory.CreateClient("LongLat");
             CityInfo OrgCityInfo = await ApiHelper.GetLongLat(httpClient,$"{ResultObj.StartingCity}, {ResultObj.StartCountry}");
             CityInfo DestCityInfo = await ApiHelper.GetLongLat(httpClient, $"{ResultObj.DestinationCity}, {ResultObj.DestinationCountry}");
+            ResultObj.StartLat = OrgCityInfo.GetData().Latitude;
+            ResultObj.StartLon = OrgCityInfo.GetData().Longitude;
+            ResultObj.DestLat = DestCityInfo.GetData().Latitude;
+            ResultObj.DestLon = DestCityInfo.GetData().Longitude;
+
 
             // Computing Distance Between 2 locations
             double DistanceKM = ApiHelper.GetDistance(OrgCityInfo.GetData(), DestCityInfo.GetData());

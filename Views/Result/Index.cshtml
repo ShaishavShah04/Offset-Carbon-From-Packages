@@ -42,15 +42,92 @@
 
     <hr />
 
-    <div class="mapouter">
-        <div class="gmap_canvas">
-            <iframe width="600" height="500" id="gmap_canvas" src=@Model.MapUrl frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://fmovies-online.net"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:600px;}</style><a href="https://www.embedgooglemap.net">embedding google maps into website</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style>
-        </div>
-    </div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="https://elfalem.github.io/Leaflet.curve/src/leaflet.curve.js"></script>
+    <div id="map" style="height: 440px; border: 1px solid #AAA;"></div>
 
- 
+    <script>
+        var markers = [
+            {
+                "city": "@Model.StartingCity",
+                "country": "@Model.StartCountry",
+                "lat": @Model.StartLat,
+                "lng": @Model.StartLon
+            },
+            {
+                "city": "@Model.DestinationCity",
+                "country": "@Model.DestinationCountry",
+                "lat": @Model.DestLat,
+                "lng": @Model.DestLon
+            }
+        ];
+
+        var map = L.map( 'map', {
+            center: [20.0, 5.0],
+            minZoom: 2,
+            zoom: 2,
+            worldCopyJump: true,
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: ['a','b','c']
+        }).addTo( map );
+
+        var boundsMarker = [];
+
+        for ( var i=0; i < markers.length; ++i ) 
+        {
+           L.marker( [markers[i].lat, markers[i].lng] )
+              .bindPopup( '<a href="' + markers[i].url + '" target="_blank" rel="noopener">' + markers[i].name + '</a>' )
+              .addTo( map );
+           boundsMarker.push([markers[i].lat, markers[i].lng]);
+        }
+
+        map.fitBounds(boundsMarker);
+        map.setMaxBounds(boundsMarker);
+        map.setMinZoom(map.minZoom);
+
+        var latlngs = [];
+
+        var latlng1 = [23.634501, -102.552783], latlng2 = [17.987557, -92.929147];
+
+        // var offsetX = latlng2[1] - latlng1[1], offsetY = latlng2[0] - latlng1[0];
+        var offsetX = @Model.DestLon - @Model.StartLon, offsetY = @Model.DestLat - @Model.StartLat;
+
+        var r = Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2)),
+          theta = Math.atan2(offsetY, offsetX);
+
+        var thetaOffset = (3.14 / 10);
+
+        var r2 = (r / 2) / (Math.cos(thetaOffset)), theta2 = theta + thetaOffset;
+
+        // var midpointX = (r2 * Math.cos(theta2)) + latlng1[1], midpointY = (r2 * Math.sin(theta2)) + latlng1[0];
+        var midpointX = (r2 * Math.cos(theta2)) + @Model.StartLon, midpointY = (r2 * Math.sin(theta2)) + @Model.StartLat;
+
+        var midpointLatLng = [midpointY, midpointX];
+
+        // latlngs.push(latlng1, midpointLatLng, latlng2);
+        latlngs.push([@Model.StartLat, @Model.StartLon], midpointLatLng, [@Model.DestLat, @Model.DestLon]);
+
+        var pathOptions = {
+          color: 'blue',
+          weight: 5,
+          opacity: 0.5,
+          dashed: true,
+        }
+
+        var curvedPath = L.curve(
+        [
+        'M', [@Model.StartLat, @Model.StartLon],
+        'Q', midpointLatLng,
+        [@Model.DestLat, @Model.DestLon]
+        ], pathOptions).addTo(map);
+
+    </script>
     
-
 </div>
 
 <div>
