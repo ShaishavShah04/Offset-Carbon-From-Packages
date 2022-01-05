@@ -49,52 +49,26 @@
     <div id="map" style="height: 440px; border: 1px solid #AAA;"></div>
 
     <script>
-        var markers = [
-            {
-                "city": "@Model.StartingCity",
-                "country": "@Model.StartCountry",
-                "lat": @Model.StartLat,
-                "lng": @Model.StartLon
-            },
-            {
-                "city": "@Model.DestinationCity",
-                "country": "@Model.DestinationCountry",
-                "lat": @Model.DestLat,
-                "lng": @Model.DestLon
-            }
-        ];
-
         var map = L.map( 'map', {
             center: [20.0, 5.0],
             minZoom: 2,
             zoom: 2,
-            worldCopyJump: true,
         });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             subdomains: ['a','b','c']
         }).addTo( map );
+        
+        // push markers to map
+        L.marker( [@Model.StartLat, @Model.StartLon] )
+            .addTo( map );
 
-        var boundsMarker = [];
+        L.marker( [@Model.DestLat, @Model.DestLon] )
+            .addTo( map );
 
-        for ( var i=0; i < markers.length; ++i ) 
-        {
-           L.marker( [markers[i].lat, markers[i].lng] )
-              .bindPopup( '<a href="' + markers[i].url + '" target="_blank" rel="noopener">' + markers[i].name + '</a>' )
-              .addTo( map );
-           boundsMarker.push([markers[i].lat, markers[i].lng]);
-        }
-
-        map.fitBounds(boundsMarker);
-        map.setMaxBounds(boundsMarker);
-        map.setMinZoom(map.minZoom);
-
+        // add curved line to map
         var latlngs = [];
-
-        var latlng1 = [23.634501, -102.552783], latlng2 = [17.987557, -92.929147];
-
-        // var offsetX = latlng2[1] - latlng1[1], offsetY = latlng2[0] - latlng1[0];
         var offsetX = @Model.DestLon - @Model.StartLon, offsetY = @Model.DestLat - @Model.StartLat;
 
         var r = Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2)),
@@ -104,12 +78,10 @@
 
         var r2 = (r / 2) / (Math.cos(thetaOffset)), theta2 = theta + thetaOffset;
 
-        // var midpointX = (r2 * Math.cos(theta2)) + latlng1[1], midpointY = (r2 * Math.sin(theta2)) + latlng1[0];
         var midpointX = (r2 * Math.cos(theta2)) + @Model.StartLon, midpointY = (r2 * Math.sin(theta2)) + @Model.StartLat;
 
         var midpointLatLng = [midpointY, midpointX];
 
-        // latlngs.push(latlng1, midpointLatLng, latlng2);
         latlngs.push([@Model.StartLat, @Model.StartLon], midpointLatLng, [@Model.DestLat, @Model.DestLon]);
 
         var pathOptions = {
@@ -125,6 +97,26 @@
         'Q', midpointLatLng,
         [@Model.DestLat, @Model.DestLon]
         ], pathOptions).addTo(map);
+
+        // add bounds markers
+        var boundsMarker = [];
+
+        console.log("midpointLatLng", midpointLatLng);
+        console.log("Start Lat Lon", @Model.StartLat, @Model.StartLon);
+        console.log("Dest Lat Lon", @Model.DestLat, @Model.DestLon);
+
+        // check for how to set bounds
+        if (midpointY > @Model.StartLon) {
+            boundsMarker.push([@Model.StartLat, @Model.StartLon-5]);
+            boundsMarker.push([@Model.DestLat, @Model.DestLon+5]);
+        } else {
+            boundsMarker.push([@Model.StartLat, @Model.StartLon+5]);
+            boundsMarker.push([@Model.DestLat, @Model.DestLon-5]);
+        }
+        
+        // set bounds and zoom view
+        map.setMaxBounds(map.getBounds());
+        map.fitBounds(boundsMarker);
 
     </script>
     
