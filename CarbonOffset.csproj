@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\scene.yaml" />
+    <None Include="wwwroot\images\airlinePath.jpg" />
   </ItemGroup>
 
   <ItemGroup>

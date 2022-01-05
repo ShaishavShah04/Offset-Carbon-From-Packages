@@ -31,7 +31,7 @@ namespace CarbonOffset.Controllers
             // ( $50/Ton of carbon ) -- https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/industry/pricing-carbon-pollution.html
             // Assume 1,000,000g = 1 Tons
             // $0.00575/km
-
+            float CarbonDamage = (float)Math.Round(0.115 * DistanceKM);
             double Cost = Math.Round(0.00575 * DistanceKM, 2);
             // Map Url:
             // String to enter
@@ -42,6 +42,7 @@ namespace CarbonOffset.Controllers
             // Creating the Result obj
             ResultObj.Distance = DistanceKM;
             ResultObj.Cost = Cost;
+            ResultObj.CarbonEmissions = CarbonDamage;
             ResultObj.MapUrl = mapSrc;
 
             return View(ResultObj);
