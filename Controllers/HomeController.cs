@@ -6,7 +6,6 @@ using System.Diagnostics;
 using Microsoft.Net.Http.Headers;
 using System.Text.Json;
 
-
 namespace CarbonOffset.Controllers
 {
     public class HomeController : Controller
@@ -37,12 +36,13 @@ namespace CarbonOffset.Controllers
             string trackingNumber = resultObject.TrackingNumber;
             string path = $"https://api.goshippo.com/tracks/{carrier}/{trackingNumber}";
 
+            var apiKeys = new CarbonOffset.APIKeys();
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, path)
             {
                 Headers =
                 {
-                    { HeaderNames.Authorization, "ShippoToken shippo_test_ac3dd19acaa600c13da4b0bde6220d3da0c690b0" }
+                    { HeaderNames.Authorization, $"ShippoToken {apiKeys.Shippo}" }
                 }
             };
 
