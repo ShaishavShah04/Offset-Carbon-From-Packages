@@ -10,6 +10,7 @@
         public string DestinationCity { get; set; }
         public string StartCountry { get; set; }
         public string DestinationCountry { get; set; }
+        public float CarbonEmissions { get; set; }
         public float StartLat { get; set; }
         public float StartLon { get; set; }
         public float DestLat { get; set; }
