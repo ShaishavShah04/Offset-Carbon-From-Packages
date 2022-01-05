@@ -11,21 +11,23 @@
 
     <div id="info" class="row">
 
-        <dl class="col-md-3">
-            <dt class="col-8">Origin City: </dt>
-            <dd class="col-4">@Model.StartingCity</dd>
+        <dl class="col-md-3 text-end">
+            <dt class="col">Origin City: </dt>
+            <dd class="col">@Model.StartingCity</dd>
 
-            <dt class="col-8">Origin Country: </dt>
-            <dd class="col-4">@Model.StartCountry</dd>
+            <dt class="col">Origin Country: </dt>
+            <dd class="col">@Model.StartCountry</dd>
         </dl>
 
         <div class="flex-column col-md-6">
-            <div>
-                <p class="h1 gradientOtoR center">@Model.Distance KM</p>
+
+            <div id="arrow">
+                <img class="airline-image" src="~/images/airlinePath.jpg" />
             </div>
-            <div id="arrow"></div>
-            <div>
-                <p class="h1 gradientOtoR center">$@Model.Cost</p>
+            <div class="flex-row-center-start">
+                <div class="airlineDetails"><b>Distance:</b> @Model.Distance KM</div>
+                <div class="airlineDetails"><b>Carbon Emissions:</b> @Model.CarbonEmissions CO2e</div>
+                <div class="airlineDetails"><b>Carbon Offset:</b> <span id="carbonMoney">$@Model.Cost</span></div>
             </div>
         </div>
 
@@ -101,10 +103,6 @@
         // add bounds markers
         var boundsMarker = [];
 
-        console.log("midpointLatLng", midpointLatLng);
-        console.log("Start Lat Lon", @Model.StartLat, @Model.StartLon);
-        console.log("Dest Lat Lon", @Model.DestLat, @Model.DestLon);
-
         // check for how to set bounds
         if (midpointY > @Model.StartLon) {
             boundsMarker.push([@Model.StartLat, @Model.StartLon-5]);
@@ -120,8 +118,4 @@
 
     </script>
     
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
